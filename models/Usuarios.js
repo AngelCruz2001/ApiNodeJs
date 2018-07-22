@@ -13,5 +13,5 @@ ContactoEmergencia:  { type: String },
 Genero:  { type: String },
 UbicacionActual:  { type: String }
 });
-
-module.exports = mongoose.model('Usuarios', Usuarios);
+var Usuario = mongoose.model('Usuario', Usuarios);
+module.exports.Usuario = Usuario;

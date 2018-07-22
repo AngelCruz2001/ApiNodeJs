@@ -4,11 +4,13 @@ POST http://localhost:3000/Usuarios HTTP/1.1
 GET http://google.com HTTP/1.1
 
 ### 
-POST http://localhost:3000/Usuarios HTTP/1.1
+DELETE  http://localhost:3000/api/Usuarios/1 HTTP/1.1
+### 
+POST http://localhost:3000/api/Usuarios HTTP/1.1
 content-type: application/json
 
 {
-"Id": 1,
+"Id": 2,
 "Nombre":"Angel"    ,
 "NombreUsuario":"Angel"     ,
 "Edad":  17,
