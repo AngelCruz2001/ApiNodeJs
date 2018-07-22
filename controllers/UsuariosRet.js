@@ -1,30 +1,38 @@
-var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
+
+var urlBD= 'mongodb://JpgAngel:Jpg1407a@ds018568.mlab.com:18568/jpginvidentes';
+var bd;
+var {MongoClient}=require('mongodb');
+
+MongoClient.connect(urlBD,{ useNewUrlParser: true },(err,db)=>{
+	if(err)throw err;
+	else{
+		bd=db.db("jpginvidentes");
+		console.log("Connected to database");
+	}
+});
+
+
 var {Usuario}=require('../models/UsuariosModel');
 findAllUsuarios = (req, res)=> {
-	console.log("Entro aqui al findAllUsuarios");
-	
-	Usuario.find(function(err, Usuarios) {
+	bd.collection("usuarios").find({}).toArray((err, usuarios) =>{
     if(err) res.send(500, err.message);
-
     console.log('GET /Usuarios')
-		res.status(200).json(Usuarios);
+		res.send(usuarios[0]); //WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOW
 	});
 };
 
-exports.findById = function(req, res) {
-	Usuarios.findById(req.params.Id, function(err, Usuarios) {
+findById =(req, res)=>{
+	var id=parseInt(req.params.id);
+	bd.collection("usuarios").find({Id:id}).toArray((err, usuarios) =>{
     if(err) return res.send(500, err.message);
 
-    console.log('GET /Usuarios/' + req.params.Id);
-		res.status(200).jsonp(Usuarios);
+    console.log('GET /Usuarios/' + req.params.id);
+		res.json(usuarios);
 	});
 };
 addUsuarios =(req, res)=> {
 	console.log('POST');
-	console.log("entro aqui primero"+req.body.Id);
-
-	var usuario = new Usuario({
+	var usuarioNuevo ={
 		Id:    req.body.Id,
 		Nombre: 	  req.body.Nombre,
 		NombreUsuario:  req.body.NombreUsuario,
@@ -34,34 +42,35 @@ addUsuarios =(req, res)=> {
 		ContactoEmergencia:  req.body.ContactoEmergencia,
 		Genero:  req.body.Genero,
 		UbicacionActual:  req.body.UbicacionActual,
-
-	});
-
-	
-	usuario.save(function(err, usuario){
-		if(err) return res.status(500).send( err.message);
-		console.log("Todo bien");
-		res.json(usuario);
+	};
+	bd.collection("usuarios").insertOne(usuarioNuevo,(error)=>{
+		if(error){
+			res.json(error.message)
+		}
+		else {
+			res.json({success:true,user:usuarioNuevo})
+			console.log("Usuario insertado");
+		}
 	});
 	
 };
 
 exports.updateUsuarios = function(req, res) {
-	Usuarios.findById(req.params.Id, function(err, Usuarios) {
-        Usuarios.Id =    req.body.Id,
-		Usuarios.Nombre = 	  req.body.Nombre,
-		Usuarios.NombreUsuario =  req.body.NombreUsuario,
-		Usuarios.Edad =   req.body.Edad,
-		Usuarios.Domicilio =  req.body.Domicilio,
-		Usuarios.Celular =    req.body.Celular,
-		Usuarios.ContactoEmergencia =  req.body.ContactoEmergencia,
-		Usuarios.Genero =  req.body.Genero,
-		Usuarios.UbicacionActual =  req.body.UbicacionActual
-
-		Usuarios.save(function(err) {
-			if(err) return res.status(500).send(err.message);
-      res.status(200).jsonp(Usuarios);
-		});
+	let id=parseInt(req.params.id);
+	var datosNuevos={$set:{Id :    req.body.Id,
+		Nombre : 	  req.body.Nombre,
+		NombreUsuario :  req.body.NombreUsuario,
+		Edad :   req.body.Edad,
+		Domicilio :  req.body.Domicilio,
+		Celular :    req.body.Celular,
+		ContactoEmergencia :  req.body.ContactoEmergencia,
+		Genero :  req.body.Genero,
+		UbicacionActual :  req.body.UbicacionActual}
+		}
+		var query={Id:id}
+	bd.collection("usuarios").updateOne(query,datosNuevos,function(err, Usuario) {
+		if(err)res.json(err.message);
+		else res.json({success:true,Msj:"Se hizo la actualizacion correctamente"});
 	});
 };
 
@@ -75,3 +84,4 @@ exports.deleteUsuarios = function(req, res) {
 };
 exports.findAllUsuarios=findAllUsuarios;
 exports.addUsuarios=addUsuarios;
+exports.findById=findById;
