@@ -59,6 +59,7 @@ UsuariosRouter.route('/Lugares')
 
 UsuariosRouter.route('/Lugares/:Nombre')
     .get(LugaresCtrl.findLugarByNombre)
+    .put(LugaresCtrl.updateLugar)
     .delete(LugaresCtrl.deleteLugar)
 app.use('/api', UsuariosRouter);
 

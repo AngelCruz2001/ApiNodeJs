@@ -34,7 +34,26 @@ exports.addLugar=(req,res)=>{
         else res.json({success:true,Mjs:"El lugar se inserto correctamente"});
     });
 }
+exports.updateLugar=(req,res)=>{
+    console.log('PUT/Lugares/'+req.params.Nombre);
+    var Nom=req.params.Nombre;
+    var query={Nombre:Nom};
+    var datosNvos={$set:{Nombre:Nom,
+        Ubicacion:req.body.Ubicacion,
+        Horario:{
+            Apertura:req.body.Horario.Apertura,
+            Cierre:req.body.Horario.Cierre
+        }}
+    }
 
+    bdConexion.collection("Lugares").updateOne(query,datosNvos,(error)=>{
+        console.log("entro aqui");
+        
+        if(error)res.json(error);
+        else res.json({success:true,Msj:"El lugar se actualizo correctamente"});
+    });
+    
+}
 exports.deleteLugar=(req,res)=>{
     console.log("DELETE/Lugares/"+req.params.Nombre);
     var Nom=req.params.Nombre;
