@@ -11,7 +11,7 @@ exports.findAllLugares=(req,res)=>{
     });
 }
 exports.findLugarByNombre=(req,res)=>{
-    console.log("DELETE/Lugares/"+req.params.Nombre);
+    console.log("GET/Lugares/"+req.params.Nombre);
     var Nom=req.params.Nombre;
     var query={Nombre:Nom};
     bdConexion.collection("Lugares").find(query).toArray((error,Lugar)=>{

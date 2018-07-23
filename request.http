@@ -8,7 +8,7 @@ POST http://localhost:3000/api/Usuarios HTTP/1.1
 content-type: application/json
 
 {
-"Id": 2,
+"Id": 1,
 "Nombre":"Angel"    ,
 "NombreUsuario":"Angel"     ,
 "Edad":  17,
@@ -22,12 +22,12 @@ content-type: application/json
 DELETE  http://localhost:3000/api/Usuarios/2 HTTP/1.1
 
 ### 
-PUT http://localhost:3000/api/Usuarios/2 HTTP/1.1
+PUT http://localhost:3000/api/Usuarios/3 HTTP/1.1
 content-type: application/json
 
 {
 "Nombre":"AngelUpdate",
-"NombreUsuario":"AngelUpdate"     ,
+"NombreUsuario":"AngelUpdate",
 "Edad":  17,
 "Domicilio": "Paseo del AlamoUpdate",
 "Celular":  "6183259226Update",
@@ -35,3 +35,5 @@ content-type: application/json
 "Genero":  "MasculinoUpdate",
 "UbicacionActual":  "DurangoUpdate"
 }
+###
+GET http://localhost:3000/api/Lugares/Paseo Durango HTTP/1.1

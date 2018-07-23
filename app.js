@@ -38,8 +38,8 @@ conexion.conectar().then((bd)=>{
 //     .once('open', () => console.log('Connection has been sucessfully'))
 //     .on('error', console.error.bind('Check the connection'))
       
-var UsuariosCtrl = require('./controllers/UsuariosRet');
-var LugaresCtrl=require('./controllers/LugaresRet');
+var UsuariosCtrl = require('./controllers/Usuarios');
+var LugaresCtrl=require('./controllers/Lugares');
 
 // API routes
 var UsuariosRouter = express.Router();
