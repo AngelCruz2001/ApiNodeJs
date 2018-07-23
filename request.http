@@ -1,10 +1,8 @@
-POST http://localhost:3000/Usuarios HTTP/1.1
+GET http://localhost:3000/api/Usuarios HTTP/1.1
 
 ### 
-GET http://google.com HTTP/1.1
+GET http://localhost:3000/api/Usuarios/2 HTTP/1.1
 
-### 
-DELETE  http://localhost:3000/api/Usuarios/1 HTTP/1.1
 ### 
 POST http://localhost:3000/api/Usuarios HTTP/1.1
 content-type: application/json
@@ -19,4 +17,21 @@ content-type: application/json
 "ContactoEmergencia":  "6182209340",
 "Genero":  "Masculino",
 "UbicacionActual":  "Durango"
+}
+### 
+DELETE  http://localhost:3000/api/Usuarios/2 HTTP/1.1
+
+### 
+PUT http://localhost:3000/api/Usuarios/2 HTTP/1.1
+content-type: application/json
+
+{
+"Nombre":"AngelUpdate",
+"NombreUsuario":"AngelUpdate"     ,
+"Edad":  17,
+"Domicilio": "Paseo del AlamoUpdate",
+"Celular":  "6183259226Update",
+"ContactoEmergencia":  "6182209340Update",
+"Genero":  "MasculinoUpdate",
+"UbicacionActual":  "DurangoUpdate"
 }
