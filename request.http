@@ -10,30 +10,46 @@ content-type: application/json
 {
 "Id": 1,
 "Nombre":"Angel"    ,
-"NombreUsuario":"Angel"     ,
+"NombreUsuario":"AngelCruz2001"     ,
 "Edad":  17,
-"Domicilio": "Paseo del Alamo",
+"Domicilio": "En su casita",
 "Celular":  "6183259226",
-"ContactoEmergencia":  "6182209340",
-"Genero":  "Masculino",
-"UbicacionActual":  "Durango"
+"ContactoEmergencia":  "6181092045",
+"Genero":  "Hombre",
+"UbicacionActual":  "DurangoYork",
+"LugarReciente":"Itecor"
 }
 ### 
 DELETE  http://localhost:3000/api/Usuarios/2 HTTP/1.1
 
 ### 
-PUT http://localhost:3000/api/Usuarios/3 HTTP/1.1
+PUT http://localhost:3000/api/Usuarios/2 HTTP/1.1
+content-type: application/json
+
+ {
+    "Nombre": "Eric",
+    "NombreUsuario": "TeacherEric",
+    "Edad": 26,
+    "Domicilio": "En su casita",
+    "Celular": "6181092045",
+    "ContactoEmergencia": "6183259226",
+    "Genero": "indefinido",
+    "UbicacionActual": "DurangoYork",
+    "LugarReciente": "Itecor"
+  }
+###
+GET  http://localhost:3000/api/Lugares/Paseo Durango HTTP/1.1
+
+###
+GET http://localhost:3000/api/LugaresFav HTTP/1.1
+
+###
+POST http://localhost:3000/api/LugaresFav HTTP/1.1
 content-type: application/json
 
 {
-"Nombre":"AngelUpdate",
-"NombreUsuario":"AngelUpdate",
-"Edad":  17,
-"Domicilio": "Paseo del AlamoUpdate",
-"Celular":  "6183259226Update",
-"ContactoEmergencia":  "6182209340Update",
-"Genero":  "MasculinoUpdate",
-"UbicacionActual":  "DurangoUpdate"
+    "Nombre":"Las vegas",
+    "NombreUsuario":"AngelCruz2001"
 }
 ###
-GET http://localhost:3000/api/Lugares/Paseo Durango HTTP/1.1
+DELETE  http://localhost:3000/api/LugaresFav/Las vegas HTTP/1.1
