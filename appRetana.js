@@ -16,15 +16,20 @@ router.get('/', function(req, res) {
 });
 
 app.use(router);
+
 // var BD= 'mongodb://JpgAngel:Jpg1407a@ds018568.mlab.com:18568/jpginvidentes'
 
 
 // try {
 //     mongoose.connect(BD, {useMongoClient: true});
 //     console.log("Connected to database")
-    app.listen(3000, function() {
-        console.log("Corriendo en http://localhost:3000");
-      });
+app.listen(3000, function() {
+    console.log("Corriendo en http://localhost:3000");
+    });
+var conexion=require('./mongoDB/Conexion');
+conexion.conectar().then((bd)=>{
+    console.log("Connected to database"); 
+});
 // } catch (error) {
 //     mongoose.createConnection(DB, {useMongoClient: true});
 //     throw error;
@@ -32,19 +37,28 @@ app.use(router);
 // mongoose.connection
 //     .once('open', () => console.log('Connection has been sucessfully'))
 //     .on('error', console.error.bind('Check the connection'))
+      
+var UsuariosCtrl = require('./controllers/UsuariosRet');
+var LugaresCtrl=require('./controllers/LugaresRet');
 
-    var UsuariosCtrl = require('./controllers/UsuariosRet');
+// API routes
+var UsuariosRouter = express.Router();
 
-    // API routes
-    var UsuariosRouter = express.Router();
-    
-    UsuariosRouter.route('/Usuarios')
-      .get(UsuariosCtrl.findAllUsuarios)
-     .post(UsuariosCtrl.addUsuarios);
-    
-    UsuariosRouter.route('/Usuarios/:id')
-      .get(UsuariosCtrl.findById)
-      .put(UsuariosCtrl.updateUsuarios)
-    //   .delete(UsuariosCtrl.deleteUsuarios);
-    
-    app.use('/api', UsuariosRouter);
+UsuariosRouter.route('/Usuarios')
+    .get(UsuariosCtrl.findAllUsuarios)
+    .post(UsuariosCtrl.addUsuarios);
+
+UsuariosRouter.route('/Usuarios/:id')
+    .get(UsuariosCtrl.findById)
+    .put(UsuariosCtrl.updateUsuarios)
+    .delete(UsuariosCtrl.deleteUsuarios);
+
+UsuariosRouter.route('/Lugares')
+    .get(LugaresCtrl.findAllLugares)
+    .post(LugaresCtrl.addLugar);
+
+UsuariosRouter.route('/Lugares/:Nombre')
+    .get(LugaresCtrl.findLugarByNombre)
+    .delete(LugaresCtrl.deleteLugar)
+app.use('/api', UsuariosRouter);
+
