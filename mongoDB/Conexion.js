@@ -9,7 +9,6 @@ conectar=()=>{
             bd=db.db("jpginvidentes");
             resolve(bd);
             }
-        
         });
    });
 

@@ -68,6 +68,7 @@ UsuariosRouter.route('/LugaresFav/')
     .post(LugaresFavCtrl.addLugaresFav)
 
 UsuariosRouter.route('/LugaresFav/:Nombre')
+    .get(LugaresFavCtrl.findLugaresFav)
     .delete(LugaresFavCtrl.deleteLugaresFav)
 app.use('/api', UsuariosRouter);
 

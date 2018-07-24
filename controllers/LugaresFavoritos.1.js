@@ -3,19 +3,25 @@ var conexion=require('../mongoDB/Conexion');
 conexion.conectar().then((bd)=>{
 	bdConexion=bd; 	
 });
-var UsuariosCtrl = require('./Usuarios.js');
+var flagLugar=false;
 
 var LugaresFavGlobal;
 exports.findLugaresFav=(req,res)=>{
-    var Res=UsuariosCtrl.findAllUsuarios;
-    
-    console.log('GET/LugaresFav');
-    bdConexion.collection("LugaresFav").find({}).toArray((err,LugaresFav)=>{
+    var Nom=req.params.Nombre;
+    console.log('GET/LugaresFav/'+Nom);    
+    bdConexion.collection("Lugares").find({Nombre:Nom}).toArray((err,Lugar)=>{
         if(err){
             res.json(err)
         }else{
-            LugaresFavGlobal=LugaresFav;
-            res.json({Datos:LugaresFav,Datos2:Res});
+            
+            if(Lugar.length>0){
+                res.json({success:true,Lugar:Lugar[0].Nombre});
+                flagLugar=true;
+            }else{
+                res.json({success:false,msj:"Upss este lugar no se encuentra registrado"});
+                flagLugar=false;
+            }
+            
         }
 
     })
@@ -23,24 +29,21 @@ exports.findLugaresFav=(req,res)=>{
 }
 exports.addLugaresFav=(req,res)=>{
     console.log("POST/LugaresFav");
-   
-    var LugaresFavInfo = {
-        "Nombre": req.body.Nombre,
-        "NombreUsuario": req.body.NombreUsuario,
-    }
-            bdConexion.collection("LugaresFav").insertOne(LugaresFavInfo, (err)=>{
-                if(err){
-                    res.json(err)
-                }else{
-                    if(LugaresFavGlobal!=null){
-                        res.json({success:true, SabiaQue:"Eres Perfecto", Get:LugaresFavGlobal});
+    
+    if(flagLugar){
+        var LugaresFavInfo = {
+            "NombreUsuario": req.body.NombreUsuario,
+        }
+                bdConexion.collection("LugaresFav").insertOne(LugaresFavInfo, (err)=>{
+                    if(err){
+                        res.json(err)
                     }else{
-                        res.json({success:false, SabiaQue:"no Eres Perfecto", Get:"Primero ejecuta el Get Tonto "})
+                        res.json({success:true,msj:"El lugar se ha insertado"});
                     }
-
-                    
-                }
-            })
+                })
+    }else{
+        res.json({success:false,msj:"No hay un lugar con ese nombre"});
+    }
     }
     
 
