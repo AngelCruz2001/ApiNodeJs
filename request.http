@@ -45,14 +45,11 @@ GET http://localhost:3000/api/LugaresFav HTTP/1.1
 
 ###
 POST http://localhost:3000/api/LugaresFav HTTP/1.1
-content-type: application/json
+content-type: application/json.
 
 {
-  
-    "NombreUsuario":"AngelCruz2001",
-    "Nombre":{
-      "Lugar":"Las vegas2"
-    }
-}
+  "Nombre":"Paseo Durango",
+  "UserName":"AERM2018"
+} 
 ###
 DELETE  http://localhost:3000/api/LugaresFav/Las vegas2 HTTP/1.1

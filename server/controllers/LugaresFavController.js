@@ -2,11 +2,14 @@ var {modelLugaresFav}=require('../models/LugaresFavoritos')
 var buscar=require('./Lugar&Usuario');
 
 exports.addLugarFav=(req,res)=>{
+    console.log(req.body);
+    console.log(req.body.Nombre);
     var Nom=req.body.Nombre;
-    var UN=req.body.UserName;
+    var UserName=req.body.UserName;
     var _idLugar,_idUsuario,Ids=[];
-
-    buscar.FindLugar(Nom,UN).then((ids)=>{
+    console.log("EXPROTS "+Nom+"........"+UserName);
+    
+    buscar.buscar(Nom,UserName).then((ids)=>{
         // _idLugar=id1;
         // _idUsuario=id2;
         Ids[0]=ids[0];
@@ -14,7 +17,7 @@ exports.addLugarFav=(req,res)=>{
         console.log(ids);
         
     })
-    // buscar.FindUsuario(UN).then((idUsuario)=>{
+    // buscar.FindUsuario(UserName).then((idUsuario)=>{
     //     _idUsuario=idUsuario
     // });
     setTimeout(() => {
@@ -32,7 +35,7 @@ exports.addLugarFav=(req,res)=>{
             res.status(500).json({success:false,msj:"Algunos de los datos no es correcto"});
         }
    
-    }, 000);
+    }, 1000);
 }
 exports.findLugaresFav=(req,res)=>{
     modelLugaresFav.find({},(error,result)=>{
