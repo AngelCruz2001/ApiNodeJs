@@ -1,73 +1,41 @@
-var express = require("express"),
-    bodyParser  = require("body-parser"),
-    methodOverride = require("method-override"),
-    app      = express(),
-    http     = require("http"),
-    server   = http.createServer(app);
+var express=require('express');
+var mongoose=require('mongoose');
+var bodyParser  = require("body-parser");
+var methodOverride = require("method-override");
+var morgan=require('morgan');
+var app= express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(methodOverride());
-
-var router = express.Router();
-
-router.get('/', function(req, res) {
-   res.send("Hello World!");
+app.use(morgan('dev'));
+var BD="mongodb://JpgAngel:Jpg1407a@ds018568.mlab.com:18568/jpginvidentes"
+mongoose.connect(BD,{ useNewUrlParser: true },(error)=>{
+    if(error)console.log("Hay un error al conectarse a la base de datos");
+    else console.log("Conncted to database");
+    
 });
-
-app.use(router);
-
-// var BD= 'mongodb://JpgAngel:Jpg1407a@ds018568.mlab.com:18568/jpginvidentes'
-
-
-// try {
-//     mongoose.connect(BD, {useMongoClient: true});
-//     console.log("Connected to database")
+mongoose.connection
+    .once('open', () => console.log('Connection has been sucessfully'))
+    .on('error', console.error.bind('Check the connection'))
+    
 app.listen(3000, function() {
     console.log("Corriendo en http://localhost:3000");
     });
-var conexion=require('./mongoDB/Conexion');
-conexion.conectar().then((bd)=>{
-    console.log("Connected to database"); 
-});
-// } catch (error) {
-//     mongoose.createConnection(DB, {useMongoClient: true});
-//     throw error;
-// }
-// mongoose.connection
-//     .once('open', () => console.log('Connection has been sucessfully'))
-//     .on('error', console.error.bind('Check the connection'))
-      
-var UsuariosCtrl = require('./controllers/Usuarios');
-var LugaresFavCtrl = require('./controllers/LugaresFavoritos');
-var LugaresCtrl=require('./controllers/Lugares');
-
-// API routes
-var UsuariosRouter = express.Router();
-
-UsuariosRouter.route('/Usuarios')
+var router=express.Router();
+var UsuariosCtrl=require('./controllers/UsariosController');
+var LugaresCtrl=require('./controllers/LugaresController');
+var LugaresFavCtrl=require('./controllers/LugaresFavController');
+router.route('/Usuarios')
     .get(UsuariosCtrl.findAllUsuarios)
-    .post(UsuariosCtrl.addUsuarios);
-
-UsuariosRouter.route('/Usuarios/:id')
-    .get(UsuariosCtrl.findById)
-    .put(UsuariosCtrl.updateUsuarios)
-    .delete(UsuariosCtrl.deleteUsuarios);
-
-UsuariosRouter.route('/Lugares')
+    .post(UsuariosCtrl.addUsuario);
+router.route('/Usuarios/:UserName')
+    .put(UsuariosCtrl.updateUsuario)
+    .delete(UsuariosCtrl.deleteUsuario)
+router.route('/Lugares')
     .get(LugaresCtrl.findAllLugares)
-    .post(LugaresCtrl.addLugar);
-
-UsuariosRouter.route('/Lugares/:Nombre')
-    .get(LugaresCtrl.findLugarByNombre)
-    .put(LugaresCtrl.updateLugar)
-    .delete(LugaresCtrl.deleteLugar)
-
-UsuariosRouter.route('/LugaresFav/')
+    .post(LugaresCtrl.addLugares)
+router.route('/LugaresFav')
     .get(LugaresFavCtrl.findLugaresFav)
-    .post(LugaresFavCtrl.addLugaresFav)
-
-UsuariosRouter.route('/LugaresFav/:Nombre')
-    .delete(LugaresFavCtrl.deleteLugaresFav)
-app.use('/api', UsuariosRouter);
-
+    .post(LugaresFavCtrl.addLugarFav)
+app.use('/api',router)

@@ -48,8 +48,11 @@ POST http://localhost:3000/api/LugaresFav HTTP/1.1
 content-type: application/json
 
 {
-    "Nombre":"Las vegas",
-    "NombreUsuario":"AngelCruz2001"
+  
+    "NombreUsuario":"AngelCruz2001",
+    "Nombre":{
+      "Lugar":"Las vegas2"
+    }
 }
 ###
-DELETE  http://localhost:3000/api/LugaresFav/Las vegas HTTP/1.1
+DELETE  http://localhost:3000/api/LugaresFav/Las vegas2 HTTP/1.1
