@@ -1,14 +1,11 @@
 var {modelLugaresFav}=require('../models/LugaresFavoritos')
 var buscar=require('./Lugar&Usuario');
+
 exports.addLugarFav=(req,res)=>{
     var Nom=req.body.Nombre;
     var UN=req.body.UserName;
     var _idLugar,_idUsuario,Ids=[];
-    // var lugarFav= new modelLugaresFav({
-    //     Nombre:Nom,
-    //     UserName:UN
-    // })
-    
+
     buscar.FindLugar(Nom,UN).then((ids)=>{
         // _idLugar=id1;
         // _idUsuario=id2;
@@ -41,5 +38,17 @@ exports.findLugaresFav=(req,res)=>{
     modelLugaresFav.find({},(error,result)=>{
         if(error)res.json(error);
         else res.json(result);
+
+    })
+}
+
+exports.removeLugarFav=(req,res)=>{
+    let query={"_id": req.params._id};
+    modelLugaresFav.remove(query,(err)=>{
+        if(err){
+            res.json(err)
+        }else{
+            res.json({success:true,msj:"No hay error"})
+        }
     })
 }

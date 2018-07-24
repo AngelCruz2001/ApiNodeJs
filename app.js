@@ -12,7 +12,7 @@ app.use(morgan('dev'));
 var BD="mongodb://JpgAngel:Jpg1407a@ds018568.mlab.com:18568/jpginvidentes"
 mongoose.connect(BD,{ useNewUrlParser: true },(error)=>{
     if(error)console.log("Hay un error al conectarse a la base de datos");
-    else console.log("Conncted to database");
+    else console.log("Connected to database");
     
 });
 mongoose.connection
