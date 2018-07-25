@@ -38,9 +38,6 @@ content-type: application/json
     "LugarReciente": "Itecor"
   }
 ###
-GET  http://localhost:3000/api/Lugares/Paseo Durango HTTP/1.1
-
-### 
 GET http://localhost:3000/api/LugaresFav HTTP/1.1
 
 ###
@@ -48,7 +45,7 @@ POST http://localhost:3000/api/LugaresFav HTTP/1.1
 content-type: application/json.
 
 {
-  "Nombre":"Paseo Durango",
+  "Nombre":"Cinemex",
   "UserName":"AERM2018"
 } 
 ###
