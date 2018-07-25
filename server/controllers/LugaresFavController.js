@@ -2,12 +2,10 @@ var {modelLugaresFav}=require('../models/LugaresFavoritos')
 var buscar=require('./Lugar&Usuario');
 
 exports.addLugarFav=(req,res)=>{
-    console.log(req.body);
-    console.log(req.body.Nombre);
     var Nom=req.body.Nombre;
     var UserName=req.body.UserName;
-    var _idLugar,_idUsuario,Ids=[];
-    console.log("EXPROTS "+Nom+"........"+UserName);
+    var Ids=[],lugfav;
+   
     
     buscar.buscar(Nom,UserName).then((ids)=>{
         // _idLugar=id1;
@@ -21,6 +19,11 @@ exports.addLugarFav=(req,res)=>{
     //     _idUsuario=idUsuario
     // });
     setTimeout(() => {
+        buscar.getLugarFav(Ids[0]).then((LugFav)=>{
+            lugfav=LugarFav;
+        });
+    
+
         var LugarFav= new modelLugaresFav({
             Nombre:Ids[0],
             UserName:Ids[1]
@@ -36,6 +39,7 @@ exports.addLugarFav=(req,res)=>{
         }
    
     }, 1000);
+    
 }
 exports.findLugaresFav=(req,res)=>{
     modelLugaresFav.find({},(error,result)=>{
