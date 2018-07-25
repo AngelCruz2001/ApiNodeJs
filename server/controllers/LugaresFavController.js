@@ -1,5 +1,7 @@
 var {modelLugaresFav}=require('../models/LugaresFavoritos')
 var buscar=require('./Lugar&Usuario');
+var {modelUsuarios}=require('../models/UsuariosModel');
+var {modelLugares}=require('../models/LugaresModel');
 
 exports.addLugarFav=async(req,res)=>{
     console.log(req.body.Nombre+"-------"+req.body.UserName);
@@ -40,7 +42,7 @@ exports.addLugarFav=async(req,res)=>{
     
 }
 exports.findLugaresFav=(req,res)=>{
-    modelLugaresFav.find({}).populate("Lugares",(error,result)=>{
+    modelLugaresFav.find({},(error,result)=>{
         if(error)res.json(error);
         else res.json(result);
 
