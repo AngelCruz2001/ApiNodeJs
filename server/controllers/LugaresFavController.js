@@ -1,48 +1,46 @@
 var {modelLugaresFav}=require('../models/LugaresFavoritos')
 var buscar=require('./Lugar&Usuario');
 
-exports.addLugarFav=(req,res)=>{
+exports.addLugarFav=async(req,res)=>{
+    console.log(req.body.Nombre+"-------"+req.body.UserName);
     var Nom=req.body.Nombre;
     var UserName=req.body.UserName;
     var Ids=[],lugfav;
    
-    
-    buscar.buscar(Nom,UserName).then((ids)=>{
-        // _idLugar=id1;
-        // _idUsuario=id2;
-        Ids[0]=ids[0];
-        Ids[1]=ids[1];
-        console.log(ids);
-        
-    })
-    // buscar.FindUsuario(UserName).then((idUsuario)=>{
-    //     _idUsuario=idUsuario
-    // });
-    setTimeout(() => {
-        buscar.getLugarFav(Ids[0]).then((LugFav)=>{
-            lugfav=LugarFav;
-        });
-    
-
+    await buscar.buscarIdLugar(Nom).then((idl)=>{
+        Ids[0]=idl;
+    });;
+    await buscar.buscarIdUsuario(UserName).then((idu)=>{
+        Ids[1]=idu;
+    });
         var LugarFav= new modelLugaresFav({
             Nombre:Ids[0],
             UserName:Ids[1]
         })
         console.log(Ids[0]+"    <=id lugar   y  id usuario=>   "+Ids[1]);
-        if(Ids[0]!==undefined && Ids[1]!==undefined){
-            LugarFav.save((error)=>{
-                if(error)res.json({success:false,error});
-                else res.json({success:true,msj:"El lugar favorito se añadio"})
-    });
+    
+        if(Ids[0]!==undefined){
+            if(Ids[1]!==undefined){
+                await buscar.getLugarFav(Ids[0]).then((LugarFav)=>{
+                    lugfav=LugarFav;
+                });
+                LugarFav.save((error)=>{
+                    if(error)res.json({success:false,error});
+                    else res.json({success:true,msj:"El lugar favorito se añadio"})
+                 });
+            }else{
+                res.status(406).json({success:false,msj:"El no existe el usuario que intenta agregar un lugar favorito"})
+            } 
         }else{
-            res.status(500).json({success:false,msj:"Algunos de los datos no es correcto"});
+            res.status(406).json({success:false,msj:"El lugar que intenta poner como favorito no existe"})
         }
-   
-    }, 1000);
+            
+       
+
     
 }
 exports.findLugaresFav=(req,res)=>{
-    modelLugaresFav.find({},(error,result)=>{
+    modelLugaresFav.find({}).populate("Lugares",(error,result)=>{
         if(error)res.json(error);
         else res.json(result);
 
