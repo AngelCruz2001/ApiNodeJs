@@ -4,7 +4,8 @@ var {modelUsuarios}=require('./UsuariosModel');
 var {modelLugares}=require('./LugaresModel');
 var LugaresFavShema = new Schema({
     Lugar:{type:Schema.Types.ObjectId,ref:modelLugares.name},
-    UserName:{type:Schema.Types.ObjectId,ref:modelUsuarios.name}
+    UserNames:{
+        UserName:{type:Schema.Types.ObjectId,ref:modelUsuarios.name}
+    }
 })
 exports.modelLugaresFav=mongoose.model('LugaresFav',LugaresFavShema);
-//falta hacer que funcione el populate!!

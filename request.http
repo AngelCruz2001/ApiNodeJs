@@ -42,7 +42,18 @@ GET  http://localhost:3000/api/Lugares/Paseo Durango HTTP/1.1
 
 ### 
 GET http://localhost:3000/api/LugaresFav HTTP/1.1
-
+###
+POST http://localhost:3000/api/Lugares HTTP/1.1
+content-type: application/json.
+ 
+{
+  "Nombre":"Paseo Durango",
+  "Ubicacion":"DurangYork",
+  "Horario":{
+      "Apertura":"11:00",
+      "Cierre":"21:00"
+  }
+}
 ###
 POST http://localhost:3000/api/LugaresFav HTTP/1.1
 content-type: application/json.

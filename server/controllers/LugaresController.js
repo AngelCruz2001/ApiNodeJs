@@ -7,7 +7,7 @@ exports.findAllLugares=(req,res)=>{
 }
 exports.addLugares=(req,res)=>{
     var lugar=new modelLugares({
-        Nombre:req.body.Nombre,
+        Lugar:req.body.Lugar,
         Ubicacion:req.body.Ubicacion,
         Horario:{
             Apertura:req.body.Horario.Apertura,

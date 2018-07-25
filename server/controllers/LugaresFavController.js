@@ -2,33 +2,61 @@ var {modelLugaresFav}=require('../models/LugaresFavoritos')
 var buscar=require('./Lugar&Usuario');
 var {modelUsuarios}=require('../models/UsuariosModel');
 var {modelLugares}=require('../models/LugaresModel');
+var mongoose=require('mongoose');
 exports.addLugarFav=async(req,res)=>{
-    console.log(req.body.Nombre+"-------"+req.body.UserName);
-    var Nom=req.body.Nombre;
-    var UserName=req.body.UserName;
+    
+    var Lugar=req.body.Lugar;
+    var UserName=req.body.UserNames.UserName;
+    console.log('====================================');
+    console.log(Lugar+"-------"+UserName);
+    console.log('====================================');
     var Ids=[],lugfav;
    
-    await buscar.buscarIdLugar(Nom).then((idl)=>{
+    await buscar.buscarIdLugar(Lugar).then((idl)=>{
         Ids[0]=idl;
     });;
     await buscar.buscarIdUsuario(UserName).then((idu)=>{
         Ids[1]=idu;
     });
-        var LugarFav= new modelLugaresFav({
-            Lugar:Ids[0],
-            UserName:Ids[1]
-        })
         console.log(Ids[0]+"    <=id lugar   y  id usuario=>   "+Ids[1]);
-    
         if(Ids[0]!==undefined){
             if(Ids[1]!==undefined){
+                
                 await buscar.getLugarFav(Ids[0]).then((LugarFav)=>{
                     lugfav=LugarFav;
                 });
-                LugarFav.save((error)=>{
-                    if(error)res.json({success:false,error});
-                    else res.json({success:true,msj:"El lugar favorito se añadio"})
-                 });
+                if(lugfav===undefined){
+                    var LugarFav= new modelLugaresFav({
+
+                        Lugar:Ids[0],
+                        UserNames:{
+                            UserName: Ids[1]
+                        }
+                    })
+                    LugarFav.save((error)=>{
+                        if(error)res.json({success:false,error});
+                        else res.json({success:true,msj:"El lugar favorito se añadio"})
+                     });
+                }else{
+
+                    var Verde=lugfav.UserNames.UserName;
+
+                  
+                    var UserName1= mongoose.Types.ObjectId(Ids[1])
+                    var Data={Username1:UserName1};
+                    var Amarrillo= mongoose.Types.ObjectId(Verde)
+                    var json=Object.assign({},Amarrillo,Data)
+                    
+                    console.log('====================================');
+                    console.log(json);
+                    console.log('====================================');
+                    var query={Lugar:Ids[0]}
+                    var up={$set:{UserNames:json}};
+                    modelLugaresFav.update(query,up,(error)=>{
+                        if(error)res.json(error)
+                        else res.json({success:true,msj:"Estas perro"});
+                    })
+                }
             }else{
                 res.status(406).json({success:false,msj:"El no existe el usuario que intenta agregar un lugar favorito"})
             } 
