@@ -4,7 +4,7 @@ var {modelLugaresFav}=require('../models/LugaresFavoritos');
 var id1,id2;
 var FindLugar=(Nom)=>{
         return new Promise((resolve,reject)=>{
-            modelLugares.find({Nombre:Nom},{_id:1},(error,idLugar)=>{
+            modelLugares.find({Lugar:Nom},{_id:1},(error,idLugar)=>{
                 if(error)res.json(error);
                 else{
                     if(idLugar[0]!==undefined){
@@ -39,10 +39,15 @@ var FindUsuario=(UserName)=>{
 }
 var FindLugFav=(_id)=>{
     return new Promise((resolve,reject)=>{
-        modelLugaresFav.find({Nombre:_id},(error,LugarFav)=>{
+        modelLugaresFav.find({Lugar:_id},{UserNames:1,_id:0},(error,LugarFav)=>{
             if(error)res.json(error);
             else{
-                resolve(LugarFav[0]);
+                if(LugarFav!==undefined){
+                    
+                    resolve(LugarFav[0]);
+                }else{
+                    LugarFav=undefined;
+                }
             }
         });
     });
