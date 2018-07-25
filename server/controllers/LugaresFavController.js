@@ -15,7 +15,7 @@ exports.addLugarFav=async(req,res)=>{
         Ids[1]=idu;
     });
         var LugarFav= new modelLugaresFav({
-            Nombre:Ids[0],
+            Lugar:Ids[0],
             UserName:Ids[1]
         })
         console.log(Ids[0]+"    <=id lugar   y  id usuario=>   "+Ids[1]);
@@ -41,19 +41,11 @@ exports.addLugarFav=async(req,res)=>{
     
 }
 exports.findLugaresFav=(req,res)=>{
-    var id=req.params.id;
-    modelLugaresFav.findOne({ Nombre:id}).
-    populate('Lugar')
-    // exec(function (err, story) {
-    //   if (err) return handleError(err);
-    //   console.log('The author is %s', story.author.name);
-    //   // prints "The author is Ian Fleming"
-    // });
 
-    .exec((error,Lugar)=>{
-        res.json(Lugar)
-        console.log(Lugar.Nombre);
-        
+    modelLugaresFav.find({},(err,Lugares)=>{
+        modelLugares.populate(Lugares,{path:"Lugar"},(err,places)=>{
+            res.json(places);
+        })
     })
     // modelLugaresFav.find({})
     // .select("Nombre UserName _Id")

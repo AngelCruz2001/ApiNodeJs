@@ -5,7 +5,7 @@ var LugarShema = new Schema({
     Ubicacion:String,
     Horario:{
         Apertura:String,
-        Cierre:String
+        Cierre:String 
     }
 });
 var modelLugares=mongoose.model('lugares',LugarShema);
