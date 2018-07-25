@@ -2,7 +2,6 @@ var {modelLugaresFav}=require('../models/LugaresFavoritos')
 var buscar=require('./Lugar&Usuario');
 var {modelUsuarios}=require('../models/UsuariosModel');
 var {modelLugares}=require('../models/LugaresModel');
-
 exports.addLugarFav=async(req,res)=>{
     console.log(req.body.Nombre+"-------"+req.body.UserName);
     var Nom=req.body.Nombre;
@@ -42,17 +41,46 @@ exports.addLugarFav=async(req,res)=>{
     
 }
 exports.findLugaresFav=(req,res)=>{
-    modelLugaresFav.find({})
-    .populate(modelLugares.name)
-    .exec()
-    .then(Lugares=>{
-        try{
-            res.json({
-                success:true,Lugares})
-        }catch(error){
-            res.json({success:false,msj:"No se completo"});
-        }
+    var id=req.params.id;
+    modelLugaresFav.findOne({ Nombre:id}).
+    populate('Lugar')
+    // exec(function (err, story) {
+    //   if (err) return handleError(err);
+    //   console.log('The author is %s', story.author.name);
+    //   // prints "The author is Ian Fleming"
+    // });
+
+    .exec((error,Lugar)=>{
+        res.json(Lugar)
+        console.log(Lugar.Nombre);
+        
     })
+    // modelLugaresFav.find({})
+    // .select("Nombre UserName _Id")
+    // .populate(modelLugares.name)
+    // .exec()
+    // .then(Lugares=>{
+    //         res.json({
+    //             success:true,
+    //             orders: Lugares.map(Lugares => {
+    //                 return {
+    //                   _id: Lugares._id,
+    //                   Nombre: Lugares.Nombre,
+    //                   UserName: Lugares.UserName,
+    //                   request: {
+    //                     type: "GET",
+    //                     url: "http://localhost:3000/orders/" + Lugares._id
+    //                   }
+    //                 };
+    //             })
+    //         })
+    //         .catch(err => {
+    //             res.status(500).json({
+    //               error: err
+    //             });
+            // })
+    // })
+    
 }
 
 exports.removeLugarFav=(req,res)=>{
