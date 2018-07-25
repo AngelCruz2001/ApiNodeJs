@@ -8,5 +8,5 @@ var LugarShema = new Schema({
         Cierre:String
     }
 });
-var modelLugares=mongoose.model('Lugares',LugarShema);
+var modelLugares=mongoose.model('lugares',LugarShema);
 module.exports.modelLugares=modelLugares;

@@ -42,10 +42,16 @@ exports.addLugarFav=async(req,res)=>{
     
 }
 exports.findLugaresFav=(req,res)=>{
-    modelLugaresFav.find({},(error,result)=>{
-        if(error)res.json(error);
-        else res.json(result);
-
+    modelLugaresFav.find({})
+    .populate(modelLugares.name)
+    .exec()
+    .then(Lugares=>{
+        try{
+            res.json({
+                success:true,Lugares})
+        }catch(error){
+            res.json({success:false,msj:"No se completo"});
+        }
     })
 }
 
