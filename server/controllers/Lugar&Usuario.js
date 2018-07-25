@@ -1,5 +1,6 @@
 var {modelUsuarios}=require('../models/UsuariosModel');
 var {modelLugares}=require('../models/LugaresModel');
+var {modelLugaresFav}=require('../models/LugaresFavoritos');
 
 var FindLugar=(Nom,UserName)=>{
     var id1,id2;
@@ -24,7 +25,24 @@ var FindLugar=(Nom,UserName)=>{
                     })
     })
 }
-
+var FindLugFav=(_id)=>{
+    console.log("id del lugar=>..."+_id)
+    return new Promise((resolve,reject)=>{
+        modelLugaresFav.find({Nombre:_id},(error,LugarFav)=>{
+            if(error)res.json(error);
+            else{
+                console.log(LugarFav[0]);
+                resolve(LugarFav);
+            }
+        });
+    });
+}
+exports.getLugarFav=async(_id)=>{
+    let LugFav= await FindLugFav(_id);
+    console.log(LugFav);
+    
+    return LugFav;
+}
 exports.buscar=async(Nom,UserName)=>{
     let ids=await FindLugar(Nom,UserName);
     return ids;
