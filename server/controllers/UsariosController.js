@@ -1,4 +1,7 @@
 var {modelUsuarios}=require('../models/UsuariosModel');
+var mongoose=require('mongoose');
+
+
 exports.findAllUsuarios=(req,res)=>{
     console.log("GET/Usuarios");
     modelUsuarios.find({},(error,Usuarios)=>{
@@ -50,4 +53,16 @@ exports.deleteUsuario=(req,res)=>{
         if(error)res.json(error);
         else res.json({success:true,msj:"El usuario se elimino con exito"});
     });
+}
+    exports.findUsuarioById =(req, res)=>{
+    	console.log('GET /Usuarios/' + req.params._id);
+        var id=mongoose.Types.ObjectId(req.params._id);
+    	modelUsuarios.find({_id:id},(err, usuarios) =>{
+        if(err){
+            res.json(err);
+        }else{
+    	     res.json(usuarios);
+        }
+       
+        });
 }
