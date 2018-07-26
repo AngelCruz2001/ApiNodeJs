@@ -3,6 +3,9 @@ var buscar=require('./Lugar&Usuario');
 var {modelUsuarios}=require('../models/UsuariosModel');
 var {modelLugares}=require('../models/LugaresModel');
 var mongoose=require('mongoose');
+exports.Modelo = ()=> {
+
+}
 exports.addLugarFav=async(req,res)=>{
     
     var Lugar=req.body.Lugar;
@@ -39,13 +42,14 @@ exports.addLugarFav=async(req,res)=>{
                      });
                 }else{
 
+                    //ObjectsId
                     var Verde=lugfav.UserNames.UserName;
-
-                  
                     var UserName1= mongoose.Types.ObjectId(Ids[1])
-                    var Data={Username1:UserName1};
-                    var Amarrillo= mongoose.Types.ObjectId(Verde)
-                    var json=Object.assign({},Amarrillo,Data)
+
+                    var Json1={UserName:Verde};
+                    var Json2={UserName1:UserName1};
+                    // var json=Json1.concat(Json2);
+                    var json=Object.assign(Json1,Json2)
                     
                     console.log('====================================');
                     console.log(json);
