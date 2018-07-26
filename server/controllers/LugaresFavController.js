@@ -24,6 +24,7 @@ exports.addLugarFav=async(req,res)=>{
                 
                 await buscar.getLugarFav(Ids[0]).then((LugarFav)=>{
                     lugfav=LugarFav;
+                    console.log(lugfav)
                 });
                 if(lugfav===undefined){
                     var LugarFav= new modelLugaresFav({
@@ -39,23 +40,25 @@ exports.addLugarFav=async(req,res)=>{
                      });
                 }else{
 
-                    var Verde=lugfav.UserNames.UserName;
-
+                    // var Verde=lugfav.UserNames.UserName;
+                    // console.log("verde"+typeof Verde);
                   
-                    var UserName1= mongoose.Types.ObjectId(Ids[1])
-                    var Data={Username1:UserName1};
-                    var Amarrillo= mongoose.Types.ObjectId(Verde)
-                    var json=Object.assign({},Amarrillo,Data)
+                    // var UserName1= Ids[1]
+                    // var Data={Username1:UserName1};
+                    // var Data1=JSON.stringify(Data);
+                    // Data1=JSON.parse(Data1);
+                    // console.log("Data"+typeof Data1);
+                    // var json=Object.assign({},Verde,Data1)
                     
-                    console.log('====================================');
-                    console.log(json);
-                    console.log('====================================');
-                    var query={Lugar:Ids[0]}
-                    var up={$set:{UserNames:json}};
-                    modelLugaresFav.update(query,up,(error)=>{
-                        if(error)res.json(error)
-                        else res.json({success:true,msj:"Estas perro"});
-                    })
+                    // console.log('====================================');
+                    // console.log(json);
+                    // console.log('====================================');
+                    // var query={Lugar:Ids[0]}
+                    // var up={$set:{UserNames:json}};
+                    // modelLugaresFav.update(query,up,(error)=>{
+                    //     if(error)res.json(error)
+                    //     else res.json({success:true,msj:"Estas perro"});
+                    // })
                 }
             }else{
                 res.status(406).json({success:false,msj:"El no existe el usuario que intenta agregar un lugar favorito"})
@@ -111,5 +114,19 @@ exports.removeLugarFav=(req,res)=>{
         }else{
             res.json({success:true,msj:"No hay error"})
         }
+    })
+}
+
+exports.getLugaresFav=(req,res)=>{
+    var id=req.params.id
+    var lugsfavs=[];
+    modelLugaresFav.find({UserNames:{UserName:id}},(err,Lugares)=>{
+        modelLugares.populate(Lugares,{path:"Lugar"},(err,places)=>{
+            for(var i=0;i<places.length;i++){
+                lugsfavs[i]=places[i].Lugar; 
+            } 
+            console.log(lugsfavs)
+            res.json({LugaresFav:lugsfavs});
+        })
     })
 }
