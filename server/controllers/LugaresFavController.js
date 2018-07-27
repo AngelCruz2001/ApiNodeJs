@@ -77,33 +77,7 @@ exports.findLugaresFav=(req,res)=>{
         modelLugares.populate(Lugares,{path:"Lugar"},(err,places)=>{
             res.json(places);
         })
-    })
-    // modelLugaresFav.find({})
-    // .select("Nombre UserName _Id")
-    // .populate(modelLugares.name)
-    // .exec()
-    // .then(Lugares=>{
-    //         res.json({
-    //             success:true,
-    //             orders: Lugares.map(Lugares => {
-    //                 return {
-    //                   _id: Lugares._id,
-    //                   Nombre: Lugares.Nombre,
-    //                   UserName: Lugares.UserName,
-    //                   request: {
-    //                     type: "GET",
-    //                     url: "http://localhost:3000/orders/" + Lugares._id
-    //                   }
-    //                 };
-    //             })
-    //         })
-    //         .catch(err => {
-    //             res.status(500).json({
-    //               error: err
-    //             });
-            // })
-    // })
-    
+    })  
 }
 
 exports.removeLugarFav=(req,res)=>{
